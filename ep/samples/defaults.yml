@@ -1,0 +1,6 @@
+ep: 1.0.0
+run: echo $EP_PORT
+env:
+    EP_PORT:
+        help: "A number between 5000 and 7000"
+        default: 5555
