@@ -69,6 +69,9 @@ The command to install dependencies via ep is:
 e.g. a virtual environment in Python, local npm install etc. `ep` will manage
 the creation of this isolated environment for you.
 
+You can always delete installed dependencies for a fresh initial state:
+
+    ep clear
 
 ### A defined way to run your project
 
@@ -92,18 +95,21 @@ Your app should be configurable via environment variables. Your `ep.yml` file
 provides an explicit definition of what those variables are, and optional
 default values and help.
 
+You should include in an `env` section the environment variables your system
+relies on for running, add help text for them, and when applicable define
+some defaults:
+
 ```yaml
-run:
-  environment:
-    PORT:
-      default: 8000
-      help: The port the web application will run on
-    SOME_EXTERNAL_SERVICE_URL:
-      default: http://localhost:9000
+env:
+  PORT:
+    help: "The port the web application will run on"
+  SOME_EXTERNAL_SERVICE_URL:
+    help: "URL to your external service blah."
+    default: "http://localhost:9000"
 ```
 
 `ep run` will complain if variables that do not have a default value are not
-privided, and refuse to run.
+provided, and refuse to run.
 
 
 ## Additional features
