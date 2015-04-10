@@ -9,7 +9,7 @@ from ep import __version__
 setup(
     name='ep',
     description=(
-        'A tool to support an explicit contract between application'
+        'A tool to support an explicit contract between application '
         'and plaftorm'
     ),
     long_description=open('README.md').read(),
