@@ -14,5 +14,5 @@ class NpmDependencies(object):
             print('File not found in path: {}'.format(self._file))
         return file_check
 
-    def install(self):
+    def setup(self):
         run('npm install')

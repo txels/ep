@@ -1,1 +1,2 @@
 docopt
+semver==2.0.1

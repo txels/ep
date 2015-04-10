@@ -75,8 +75,8 @@ class EP(object):
     def setup(self):
         for deps in self.dependencies:
             if deps.check():
-                deps.install()
+                deps.setup()
 
     @do_check
     def run(self):
-        run(self._run)
+        run('source .ep/python/bin/activate && {}'.format(self._run))
