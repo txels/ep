@@ -1,4 +1,5 @@
 from functools import wraps
+import shutil
 
 import yaml
 
@@ -9,7 +10,6 @@ from .python import PythonDependencies
 from .shell import run
 
 
-# TODO: ensure honcho is installed?
 DEFAULTS = {
     'ep': __version__,
     'run': 'honcho start',
@@ -57,6 +57,9 @@ class EP(object):
 
     def parse_environment(self, environment):
         return Env(environment)
+
+    def clear(self):
+        shutil.rmtree('.ep', ignore_errors=True)
 
     def check(self):
         env_checks = self.env.check()

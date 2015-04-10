@@ -1,6 +1,7 @@
 """ep CLI
 
 Usage:
+  ep clear
   ep check [--file=<FILE>]
   ep setup [--file=<FILE>]
   ep run [--file=<FILE>]
@@ -32,6 +33,6 @@ class Commands(object):
         filename = args['--file'] or 'ep.yml'
         ep = EP(filename)
 
-        for command in ['check', 'setup', 'run']:
+        for command in ['clear', 'check', 'setup', 'run']:
             if args[command]:
                 getattr(ep, command)()
