@@ -3,3 +3,4 @@ run: python -m unittest discover
 dependencies:
   - python:
       version: ">=2.7.0"
+      file: "requirements/test.txt"

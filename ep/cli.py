@@ -21,6 +21,7 @@ Options:
 
 """.format(__version__)
 
+
 class Commands(object):
     """
     The commands that are installed as entry points in setup.py

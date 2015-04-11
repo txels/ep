@@ -70,9 +70,8 @@ def run(command, capture=False, shell=None):
     out.stderr = err
     if p.returncode != 0:
         out.failed = True
-        msg = "local() encountered an error (return code %s) while executing '%s'" % (p.returncode, command)
+        msg = "run error (return code {0}) while executing '{1}'".format(
+            p.returncode, command)
         error(message=msg, stdout=out, stderr=err)
     out.succeeded = not out.failed
-    # If we were capturing, this will be a string; otherwise it will be None.
     return out
-

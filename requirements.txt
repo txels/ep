@@ -1,3 +1,1 @@
-docopt
-semver==2.0.1
-PyYAML==3.11
+requirements/runtime.txt
