@@ -18,7 +18,7 @@ setup(
     author_email='carles@barrobes.com',
     url='https://github.com/txels/ep',
     packages=['ep'],
-    install_requires=['docopt', 'Fabric', 'semver'],
+    install_requires=['docopt', 'semver', 'PyYAML'],
     entry_points=dict(
         console_scripts=[
             'ep = ep.cli:Commands.main'
