@@ -25,11 +25,11 @@ class PythonDependencies(object):
             ))
         file_check = os.path.exists(self._file)
         if not file_check:
-            print('File not found in path: {}'.format(self._file))
+            print('File not found in path: {0}'.format(self._file))
         return ver_check and file_check
 
     def setup(self):
         run('mkdir -p .ep/python')
         run('virtualenv .ep/python')
-        run('.ep/python/bin/pip install -r {}'.format(self._file))
+        run('.ep/python/bin/pip install -r {0}'.format(self._file))
         run('.ep/python/bin/pip install honcho')

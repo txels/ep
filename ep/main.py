@@ -82,4 +82,4 @@ class EP(object):
 
     @do_check
     def run(self):
-        run('source .ep/python/bin/activate && {}'.format(self._run))
+        run('source .ep/python/bin/activate && {0}'.format(self._run))

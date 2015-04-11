@@ -11,7 +11,7 @@ class NpmDependencies(object):
     def check(self):
         file_check = os.path.exists(self._file)
         if not file_check:
-            print('File not found in path: {}'.format(self._file))
+            print('File not found in path: {0}'.format(self._file))
         return file_check
 
     def setup(self):

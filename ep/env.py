@@ -12,18 +12,18 @@ class EnvVar(object):
     def __str__(self):
         value = self.name
         if self.default:
-            value += ' [{}]'.format(self.default)
+            value += ' [{0}]'.format(self.default)
 
     def check(self):
         value = os.environ.get(self.name)
         if value is None:
             if self.default:
-                print('Variable {} not set, defaulting to {}'.format(
+                print('Variable {0} not set, defaulting to {1}'.format(
                     self.name, self.default
                 ))
                 os.environ[self.name] = str(self.default)
             else:
-                print('Variable {} not set\n - {}'.format(
+                print('Variable {0} not set\n - {1}'.format(
                     self.name, self.help
                 ))
                 return False
