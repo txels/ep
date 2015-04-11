@@ -40,15 +40,15 @@ class EP(object):
         for key, default in DEFAULTS.items():
             setattr(self, '_' + key, self.spec.get(key, default))
 
-        self.dependencies = self.parse_dependencies(self._dependencies)
-        self.env = self.parse_environment(self._env)
+        self.dependencies = self._parse_dependencies(self._dependencies)
+        self.env = self._parse_environment(self._env)
 
         for attr in ['_run', '_check']:
             val = getattr(self, attr)
             if isinstance(val, basestring):
                 setattr(self, attr, [val])
 
-    def parse_dependencies(self, dependencies):
+    def _parse_dependencies(self, dependencies):
         handlers = []
         for dependency_type in dependencies:
             if isinstance(dependency_type, dict):
@@ -61,8 +61,18 @@ class EP(object):
 
         return handlers
 
-    def parse_environment(self, environment):
+    def _parse_environment(self, environment):
         return Env(environment)
+
+    def _shell_run(self, commands):
+        if commands:
+            commands = ' && '.join(commands)
+            result = run(
+                'source .ep/python/bin/activate && {0}'.format(commands)
+            )
+            return result.succeeded
+        else:
+            return True
 
     def clear(self):
         shutil.rmtree('.ep', ignore_errors=True)
@@ -70,7 +80,8 @@ class EP(object):
     def check(self):
         env_checks = self.env.check()
         dep_checks = (all(map(lambda x: x.check(), self.dependencies)))
-        return env_checks and dep_checks
+        check_commands = self._shell_run(self._check)
+        return env_checks and dep_checks and check_commands
 
     def do_check(fun):
         @wraps(fun)
@@ -88,5 +99,4 @@ class EP(object):
 
     @do_check
     def run(self):
-        commands = ' && '.join(self._run)
-        run('source .ep/python/bin/activate && {0}'.format(commands))
+        self._shell_run(self._run)

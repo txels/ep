@@ -1,9 +1,10 @@
-ep: 0.1.0
-run:
-  - python -m unittest discover
-  - flake8 ep
-  - echo "\nSuccess!"
+ep: 0.1.2
 dependencies:
   - python:
       version: ">=2.7.0"
       file: "requirements/test.txt"
+check:
+  - python -m unittest discover
+  - flake8 ep
+run:
+  - echo "\nSuccess!"

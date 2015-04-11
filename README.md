@@ -92,7 +92,7 @@ You can also run multiple commands:
 
 ```yaml
 run:
-  - echo "Starting ..." 
+  - echo "Starting ..."
   - gunicorn myapp.wsgi
 ```
 
@@ -118,6 +118,20 @@ env:
 
 `ep run` will complain if variables that do not have a default value are not
 provided, and refuse to run.
+
+
+### Performing additional checks
+
+Besides default checks for dependency management and environment variables,
+you can add custom check steps. As for `run`, these can be a single string
+or a list:
+
+
+```yaml
+check:
+  - python -m unittest discover
+  - flake8 ep
+```
 
 
 ## Additional features
