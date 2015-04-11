@@ -1,4 +1,10 @@
-"""ep CLI
+from docopt import docopt
+
+from . import __version__
+from .main import EP
+
+USAGE = """
+Welcome to ep {0}
 
 Usage:
   ep clear
@@ -13,13 +19,7 @@ Options:
   --version                Show version
   -f FILE, --file=FILE     Load spec from file
 
-"""
-
-from docopt import docopt
-
-from . import __version__
-from .main import EP
-
+""".format(__version__)
 
 class Commands(object):
     """
@@ -28,7 +28,7 @@ class Commands(object):
     """
     @staticmethod
     def main():
-        args = docopt(__doc__, version=__version__)
+        args = docopt(USAGE, version=__version__)
 
         filename = args['--file'] or 'ep.yml'
         ep = EP(filename)
