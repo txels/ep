@@ -3,7 +3,14 @@ import os
 import subprocess
 import sys
 
-error = print
+
+def error(message, stdout, stderr):
+    """
+    Print an error message
+
+    TODO: properly deal with stdout and stderr, and apply formatting/colors
+    """
+    print(message)
 
 
 class _AttributeString(str):

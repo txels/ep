@@ -88,6 +88,14 @@ Run your project using:
 
     ep run
 
+You can also run multiple commands:
+
+```yaml
+run:
+  - echo "Starting ..." 
+  - gunicorn myapp.wsgi
+```
+
 
 ### Configuration via environment variables
 

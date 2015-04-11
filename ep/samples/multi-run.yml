@@ -1,0 +1,4 @@
+ep: 1.0.0
+run:
+  - echo "Hello World"
+  - git status

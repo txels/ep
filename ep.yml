@@ -1,5 +1,8 @@
 ep: 0.1.0
-run: python -m unittest discover
+run:
+  - python -m unittest discover
+  - flake8 ep
+  - echo "\nSuccess!"
 dependencies:
   - python:
       version: ">=2.7.0"

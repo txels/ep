@@ -13,6 +13,7 @@ from .shell import run
 DEFAULTS = {
     'ep': __version__,
     'run': 'honcho start',
+    'check': [],
     'dependencies': {},
     'env': {},
 }
@@ -41,6 +42,11 @@ class EP(object):
 
         self.dependencies = self.parse_dependencies(self._dependencies)
         self.env = self.parse_environment(self._env)
+
+        for attr in ['_run', '_check']:
+            val = getattr(self, attr)
+            if isinstance(val, basestring):
+                setattr(self, attr, [val])
 
     def parse_dependencies(self, dependencies):
         handlers = []
@@ -82,4 +88,5 @@ class EP(object):
 
     @do_check
     def run(self):
-        run('source .ep/python/bin/activate && {0}'.format(self._run))
+        commands = ' && '.join(self._run)
+        run('source .ep/python/bin/activate && {0}'.format(commands))
