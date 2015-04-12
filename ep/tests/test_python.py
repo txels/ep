@@ -5,23 +5,31 @@ from ..python import PythonDependencies
 
 class TestPython(TestCase):
 
-    def test_version(self):
+    def test_version_and_requirements(self):
         spec = {
-            'version': '>=2.3.4'
+            'version': '>=2.3.4',
+            'file': 'requirements/test.txt'
         }
         py = PythonDependencies(spec)
         self.assertTrue(py.check())
 
-    def test_requirements(self):
+    def test_version_not_matched(self):
         spec = {
-            'file': 'ep/samples/some_requirements.txt'
+            'version': '==2.9.4',
         }
         py = PythonDependencies(spec)
-        self.assertTrue(py.check())
+        self.assertFalse(py.check())
 
     def test_requirements_missing(self):
         spec = {
             'file': 'non_existing_requirements.txt'
+        }
+        py = PythonDependencies(spec)
+        self.assertFalse(py.check())
+
+    def test_requirements_changed(self):
+        spec = {
+            'file': 'ep/samples/changed_requirements.txt'
         }
         py = PythonDependencies(spec)
         self.assertFalse(py.check())

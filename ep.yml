@@ -3,8 +3,6 @@ dependencies:
   - python:
       version: ">=2.7.0"
       file: "requirements/test.txt"
-check:
+run:
   - python -m unittest discover
   - flake8 ep
-run:
-  - echo "\nSuccess!"

@@ -94,8 +94,8 @@ class EP(object):
 
     def setup(self):
         for deps in self.dependencies:
-            if deps.check():
-                deps.setup()
+            deps.check()
+            deps.setup()
 
     @do_check
     def run(self):

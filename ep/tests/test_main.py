@@ -20,3 +20,7 @@ class TestParsing(TestCase):
     def test_yaml_parsing_multiple_run_commands(self):
         ep = EP('ep/samples/multi-run.yml')
         self.assertEqual(['echo "Hello World"', 'git status'], ep._run)
+
+    def test_self_ep_yml(self):
+        ep = EP('ep.yml')
+        self.assertTrue(ep.check())
