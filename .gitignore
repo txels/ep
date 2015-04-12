@@ -1,0 +1,8 @@
+*~
+*.sw[op]
+*.py[co]
+.ep/
+/tags
+/build
+/dist
+/*.egg-info

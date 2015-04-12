@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/txels/ep.png)](https://travis-ci.org/txels/ep)
+[![Code Health](https://landscape.io/github/txels/ep/master/landscape.svg)](https://landscape.io/github/txels/ep/master)
+[![Can I Use Python 3?](https://caniusepython3.com/project/ep.svg)](https://caniusepython3.com/project/ep)
+
 # ep
 
 A tool to support an explicit contract between application and plaftorm.
@@ -69,6 +73,9 @@ The command to install dependencies via ep is:
 e.g. a virtual environment in Python, local npm install etc. `ep` will manage
 the creation of this isolated environment for you.
 
+You can always delete installed dependencies for a fresh initial state:
+
+    ep clear
 
 ### A defined way to run your project
 
@@ -85,6 +92,14 @@ Run your project using:
 
     ep run
 
+You can also run multiple commands:
+
+```yaml
+run:
+  - echo "Starting ..."
+  - gunicorn myapp.wsgi
+```
+
 
 ### Configuration via environment variables
 
@@ -92,18 +107,35 @@ Your app should be configurable via environment variables. Your `ep.yml` file
 provides an explicit definition of what those variables are, and optional
 default values and help.
 
+You should include in an `env` section the environment variables your system
+relies on for running, add help text for them, and when applicable define
+some defaults:
+
 ```yaml
-run:
-  environment:
-    PORT:
-      default: 8000
-      help: The port the web application will run on
-    SOME_EXTERNAL_SERVICE_URL:
-      default: http://localhost:9000
+env:
+  PORT:
+    help: "The port the web application will run on"
+  SOME_EXTERNAL_SERVICE_URL:
+    help: "URL to your external service blah."
+    default: "http://localhost:9000"
 ```
 
 `ep run` will complain if variables that do not have a default value are not
-privided, and refuse to run.
+provided, and refuse to run.
+
+
+### Performing additional checks
+
+Besides default checks for dependency management and environment variables,
+you can add custom check steps. As for `run`, these can be a single string
+or a list:
+
+
+```yaml
+check:
+  - python -m unittest discover
+  - flake8 ep
+```
 
 
 ## Additional features

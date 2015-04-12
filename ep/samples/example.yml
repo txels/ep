@@ -1,0 +1,11 @@
+ep: 1.0.0
+dependencies:
+  - python:
+      version: 2.7.8
+      file: "requirements.txt"
+run: echo "Hello World"
+env:
+  PORT:
+    help: "The port the web application will run on"
+  SOME_EXTERNAL_SERVICE_URL:
+    default: "http://localhost:9000"
