@@ -13,6 +13,10 @@ class EnvVar(object):
         value = self.name
         if self.default:
             value += ' [{0}]'.format(self.default)
+        return value
+
+    def __repr__(self):
+        return '<EnvVar: {0}>'.format(str(self))
 
     def check(self):
         value = os.environ.get(self.name)
