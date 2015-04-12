@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/txels/ep.png)](https://travis-ci.org/txels/ep)
 [![Code Health](https://landscape.io/github/txels/ep/master/landscape.svg)](https://landscape.io/github/txels/ep/master)
-[![Can I Use Python 3?](https://caniusepython3.com/project/ep.svg)](https://caniusepython3.com/project/ep)
+[![Can I Use Python 3?](https://caniusepython3.com/check/00276696-d27c-46f0-b10e-0c7bd684f786.svg)](https://caniusepython3.com/check/00276696-d27c-46f0-b10e-0c7bd684f786)
 
 # ep
 
