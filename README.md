@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/txels/ep.png)](https://travis-ci.org/txels/ep)
+[![Code Health](https://landscape.io/github/txels/ep/master/landscape.svg)](https://landscape.io/github/txels/ep/master)
+[![Can I Use Python 3?](https://caniusepython3.com/project/ep.svg)](https://caniusepython3.com/project/ep)
+
 # ep
 
 A tool to support an explicit contract between application and plaftorm.
