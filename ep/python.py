@@ -45,12 +45,17 @@ class PythonDependencies(object):
 
     def setup(self):
         reqs_hash = hash_requirements(self._file)
-        run('mkdir -p {0}'.format(ENV_DIR))
-        run('virtualenv {0}'.format(ENV_DIR))
-        run('{0}/bin/pip install -r {1}'.format(ENV_DIR, self._file))
-        with open(REQS_HASH, 'w') as f:
-            f.write(reqs_hash)
-        run('.ep/python/bin/pip install honcho')
+        commands = [
+            'mkdir -p {0}'.format(ENV_DIR),
+            'virtualenv {0}'.format(ENV_DIR),
+            '{0}/bin/pip install -r {1}'.format(ENV_DIR, self._file),
+            '.ep/python/bin/pip install honcho',
+        ]
+        success = all(map(lambda c: run(c).succeeded, commands))
+        if success:
+            with open(REQS_HASH, 'w') as f:
+                f.write(reqs_hash)
+        return success
 
 
 def get_all_requirements(filename):

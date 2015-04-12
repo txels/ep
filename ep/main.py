@@ -68,7 +68,7 @@ class EP(object):
         if commands:
             commands = ' && '.join(commands)
             result = run(
-                'source .ep/python/bin/activate && {0}'.format(commands)
+                '. .ep/python/bin/activate && {0}'.format(commands)
             )
             return result.succeeded
         else:
@@ -90,13 +90,19 @@ class EP(object):
                 fun(self, *args, **kwargs)
             else:
                 print('[ERROR] Checks failed, mission aborted.')
+                exit(1)
         return wrapper
 
     def setup(self):
+        success = True
         for deps in self.dependencies:
             deps.check()
-            deps.setup()
+            success = success and deps.setup()
+        if not success:
+            exit(1)
 
     @do_check
     def run(self):
-        self._shell_run(self._run)
+        success = self._shell_run(self._run)
+        if not success:
+            exit(1)
