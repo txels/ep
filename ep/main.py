@@ -9,6 +9,11 @@ from .npm import NpmDependencies
 from .python import PythonDependencies
 from .shell import run
 
+try:
+    basestring        # added in Python 2.3
+except NameError:
+    basestring = str
+
 
 DEFAULTS = {
     'ep': __version__,
@@ -52,7 +57,7 @@ class EP(object):
         handlers = []
         for dependency_type in dependencies:
             if isinstance(dependency_type, dict):
-                dependency_type, value = dependency_type.items()[0]
+                dependency_type, value = list(dependency_type.items())[0]
             else:
                 value = None
 

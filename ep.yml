@@ -1,7 +1,7 @@
 ep: 0.1.2
 dependencies:
   - python:
-      version: ">=2.7.0"
+      version: ">=2.6.0"
       file: "requirements/test.txt"
 run:
   - python -m unittest discover

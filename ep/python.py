@@ -85,5 +85,5 @@ def get_all_requirements(filename):
 
 def hash_requirements(filename):
     dependencies = get_all_requirements(filename)
-    as_text = "\n".join(dependencies)
+    as_text = "\n".join(dependencies).encode('utf-8')
     return hashlib.md5(as_text).hexdigest()
