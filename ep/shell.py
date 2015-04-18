@@ -3,6 +3,8 @@ import os
 import subprocess
 import sys
 
+from .compat import basestring
+
 
 def error(message, stdout, stderr):
     """

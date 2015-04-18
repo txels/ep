@@ -4,17 +4,11 @@ import shutil
 import yaml
 
 from . import __version__
+from .compat import basestring
 from .env import Env
 from .npm import Npm
 from .python import Python
 from .shell import run
-
-try:
-    basestring
-except NameError:
-    # Python3 fallback
-    basestring = str
-
 
 DEFAULTS = {
     'ep': __version__,
