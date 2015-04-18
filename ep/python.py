@@ -11,7 +11,7 @@ ENV_DIR = '.ep/python'
 REQS_HASH = '{0}/reqs.md5'.format(ENV_DIR)
 
 
-class PythonDependencies(object):
+class Python(object):
 
     def __init__(self, spec):
         if spec is None:
@@ -34,7 +34,7 @@ class PythonDependencies(object):
         try:
             with open(REQS_HASH) as f:
                 reqs_hash = f.read()
-            reqs_real_hash = hash_requirements(self._file)
+            reqs_real_hash = self.hash_requirements(self._file)
             reqs_check = reqs_hash == reqs_real_hash
         except:
             reqs_check = False
@@ -44,7 +44,7 @@ class PythonDependencies(object):
         return ver_check and file_check and reqs_check
 
     def setup(self):
-        reqs_hash = hash_requirements(self._file)
+        reqs_hash = Python.hash_requirements(self._file)
         commands = [
             'mkdir -p {0}'.format(ENV_DIR),
             'virtualenv {0}'.format(ENV_DIR),
@@ -57,33 +57,33 @@ class PythonDependencies(object):
                 f.write(reqs_hash)
         return success
 
+    @staticmethod
+    def get_all_requirements(filename):
+        """
+        Recursively read all requirements from a pip requirements file.
 
-def get_all_requirements(filename):
-    """
-    Recursively read all requirements from a pip requirements file.
+        Return a sorted list with only the libraries and versions, so that the
+        output (and MD5 checksum) won't change if we just shuffle requirements
+        around or edit comments.
 
-    Return a sorted list with only the libraries and versions, so that the
-    output (and MD5 checksum) won't change if we just shuffle requirements
-    around or edit comments.
+        """
+        dependencies = []
+        dirname = os.path.dirname(filename)
 
-    """
-    dependencies = []
-    dirname = os.path.dirname(filename)
+        with open(filename, 'r') as f:
+            for dependency in f.readlines():
+                # Remove comments and whitespace
+                dependency = dependency.split('#')[0].strip()
 
-    with open(filename, 'r') as f:
-        for dependency in f.readlines():
-            # Remove comments and whitespace
-            dependency = dependency.split('#')[0].strip()
+                if dependency.startswith('-r '):
+                    include = os.path.join(dirname, dependency.split()[1])
+                    dependencies += Python.get_all_requirements(include)
+                elif dependency and not dependency.startswith('--'):
+                    dependencies.append(dependency)
+        return sorted(dependencies)
 
-            if dependency.startswith('-r '):
-                include = os.path.join(dirname, dependency.split()[1])
-                dependencies += get_all_requirements(include)
-            elif dependency and not dependency.startswith('--'):
-                dependencies.append(dependency)
-    return sorted(dependencies)
-
-
-def hash_requirements(filename):
-    dependencies = get_all_requirements(filename)
-    as_text = "\n".join(dependencies).encode('utf-8')
-    return hashlib.md5(as_text).hexdigest()
+    @staticmethod
+    def hash_requirements(filename):
+        dependencies = Python.get_all_requirements(filename)
+        as_text = "\n".join(dependencies).encode('utf-8')
+        return hashlib.md5(as_text).hexdigest()

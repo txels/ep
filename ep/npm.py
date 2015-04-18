@@ -3,7 +3,7 @@ import os
 from .shell import run
 
 
-class NpmDependencies(object):
+class Npm(object):
 
     def __init__(self, spec):
         self._file = 'package.json'

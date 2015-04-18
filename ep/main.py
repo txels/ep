@@ -5,8 +5,8 @@ import yaml
 
 from . import __version__
 from .env import Env
-from .npm import NpmDependencies
-from .python import PythonDependencies
+from .npm import Npm
+from .python import Python
 from .shell import run
 
 try:
@@ -22,12 +22,13 @@ DEFAULTS = {
     'check': [],
     'dependencies': {},
     'env': {},
+    'publish': ['python setup.py sdist bdist_whell upload'],
 }
 
 
 DEPENDENCY_HANDLERS = {
-    'npm': NpmDependencies,
-    'python': PythonDependencies,
+    'npm': Npm,
+    'python': Python,
 }
 
 
