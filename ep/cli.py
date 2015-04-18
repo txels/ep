@@ -11,6 +11,7 @@ Usage:
   ep check [--file=<FILE>]
   ep setup [--file=<FILE>]
   ep run [--file=<FILE>]
+  ep publish [--file=<FILE>]
   ep --version
   ep -h | --help
 
@@ -34,6 +35,6 @@ class Commands(object):
         filename = args['--file'] or 'ep.yml'
         ep = EP(filename)
 
-        for command in ['clear', 'check', 'setup', 'run']:
+        for command in ['clear', 'check', 'setup', 'run', 'publish']:
             if args[command]:
                 getattr(ep, command)()

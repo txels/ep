@@ -6,3 +6,5 @@ dependencies:
 run:
   - python -m unittest discover
   - flake8 ep
+publish:
+  - python setup.py sdist bdist_wheel upload

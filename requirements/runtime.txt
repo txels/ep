@@ -1,3 +1,4 @@
 docopt==0.6.2
 semver==2.0.2
 PyYAML==3.11
+wheel==0.24.0

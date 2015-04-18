@@ -10,8 +10,9 @@ from .python import PythonDependencies
 from .shell import run
 
 try:
-    basestring        # added in Python 2.3
+    basestring
 except NameError:
+    # Python3 fallback
     basestring = str
 
 
@@ -98,6 +99,14 @@ class EP(object):
                 exit(1)
         return wrapper
 
+    def fail_fast(fun):
+        @wraps(fun)
+        def wrapper(self, *args, **kwargs):
+            success = fun(self, *args, **kwargs)
+            if not success:
+                exit(1)
+        return wrapper
+
     def setup(self):
         success = True
         for deps in self.dependencies:
@@ -107,7 +116,10 @@ class EP(object):
             exit(1)
 
     @do_check
+    @fail_fast
     def run(self):
-        success = self._shell_run(self._run)
-        if not success:
-            exit(1)
+        return self._shell_run(self._run)
+
+    @fail_fast
+    def publish(self):
+        return self._shell_run(self._publish)
