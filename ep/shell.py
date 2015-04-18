@@ -68,11 +68,11 @@ def output(message, color='neutral', style=Style.plain):
     ansi_print(message, ansi_code)
 
 
-def error(message, stdout=None, stderr=None):
+def error(message):
     """
     Print an error message
 
-    TODO: properly deal with stdout and stderr
+    TODO: be able to deal with custom stdout and stderr
     """
     output(message, color='error', style=Style.bold)
 
@@ -159,6 +159,6 @@ def run(command, capture=False, shell=None):
         out.failed = True
         msg = "Error (return code {0}) while executing '{1}'".format(
             p.returncode, command)
-        error(message=msg, stdout=out, stderr=err)
+        error(message=msg)  # , stdout=out, stderr=err)
     out.succeeded = not out.failed
     return out
