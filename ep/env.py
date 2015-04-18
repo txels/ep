@@ -1,5 +1,7 @@
 import os
 
+from .shell import error, warning
+
 
 class EnvVar(object):
     "An environment variable"
@@ -22,12 +24,12 @@ class EnvVar(object):
         value = os.environ.get(self.name)
         if value is None:
             if self.default:
-                print('Variable {0} not set, defaulting to {1}'.format(
+                warning('Variable {0} not set, defaulting to {1}'.format(
                     self.name, self.default
                 ))
                 os.environ[self.name] = str(self.default)
             else:
-                print('Variable {0} not set\n - {1}'.format(
+                error('Variable {0} not set\n - {1}'.format(
                     self.name, self.help
                 ))
                 return False

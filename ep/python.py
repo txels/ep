@@ -2,7 +2,7 @@ import hashlib
 import os
 import sys
 
-from .shell import run
+from .shell import error, run
 from .version import match
 
 
@@ -23,13 +23,13 @@ class Python(object):
     def check(self):
         ver_check = match(py_version, self._version)
         if not ver_check:
-            print('Expected python {0}, found {1}'.format(
+            error('Expected python {0}, found {1}'.format(
                 self._version, py_version
             ))
 
         file_check = os.path.exists(self._file)
         if not file_check:
-            print('File not found in path: {0}'.format(self._file))
+            error('File not found in path: {0}'.format(self._file))
 
         try:
             with open(REQS_HASH) as f:
@@ -39,7 +39,7 @@ class Python(object):
         except:
             reqs_check = False
         if not reqs_check:
-            print('Outdated Python requirements, need to run setup')
+            error('Outdated Python requirements, need to run setup')
 
         return ver_check and file_check and reqs_check
 

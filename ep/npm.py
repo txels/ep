@@ -1,6 +1,6 @@
 import os
 
-from .shell import run
+from .shell import error, run
 
 
 class Npm(object):
@@ -11,7 +11,7 @@ class Npm(object):
     def check(self):
         file_check = os.path.exists(self._file)
         if not file_check:
-            print('File not found in path: {0}'.format(self._file))
+            error('File not found in path: {0}'.format(self._file))
         return file_check
 
     def setup(self):

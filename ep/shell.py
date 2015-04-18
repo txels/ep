@@ -6,13 +6,91 @@ import sys
 from .compat import basestring
 
 
-def error(message, stdout, stderr):
+COLORED = "\033[{format}m{message}\033[0m"
+
+
+class Color16:
+    red = 31
+    error = red
+    green = 32
+    success = green
+    yellow = 33
+    warning = yellow
+    blue = 34
+    purple = 35
+    cyan = 36
+    white = 37
+    neutral = white
+
+
+class Color256:
+    red = 196
+    error = red
+    green = 40
+    success = green
+    yellow = 220
+    warning = yellow
+    blue = 27
+    purple = 93
+    cyan = 51
+    white = 231
+    neutral = white
+
+
+class Style:
+    plain = 0
+    bold = 1
+    italics = 3
+    underlined = 4
+    ansi256 = 5
+
+
+def ansi_print(message, format):
+    """
+    Print a colored message
+    """
+    print(COLORED.format(message=message, format=format))
+
+
+def output(message, color='neutral', style=Style.plain):
+    """
+    Print a colored message
+    """
+    if style == Style.ansi256:
+        ANSI_CODE = "38;{0};{1}"
+        Color = Color256
+    else:
+        ANSI_CODE = "{0};{1}"
+        Color = Color16
+    if isinstance(color, basestring):
+        color = getattr(Color, color)
+    ansi_code = ANSI_CODE.format(style, color)
+    ansi_print(message, ansi_code)
+
+
+def error(message, stdout=None, stderr=None):
     """
     Print an error message
 
-    TODO: properly deal with stdout and stderr, and apply formatting/colors
+    TODO: properly deal with stdout and stderr
     """
-    print(message)
+    output(message, color='error', style=Style.bold)
+
+
+def success(message):
+    output(message, color='success')
+
+
+def warning(message):
+    output(message, color='warning')
+
+
+def abort(message=None, status=1):
+    """
+    Generate error message and exit with an error status
+    """
+    error(message or "FAILED")
+    exit(status)
 
 
 class _AttributeString(str):

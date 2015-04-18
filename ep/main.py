@@ -8,7 +8,7 @@ from .compat import basestring
 from .env import Env
 from .npm import Npm
 from .python import Python
-from .shell import run
+from .shell import abort, run
 
 DEFAULTS = {
     'ep': __version__,
@@ -90,8 +90,7 @@ class EP(object):
             if self.check():
                 fun(self, *args, **kwargs)
             else:
-                print('[ERROR] Checks failed, mission aborted.')
-                exit(1)
+                abort('[ERROR] Checks failed, mission aborted.')
         return wrapper
 
     def fail_fast(fun):
@@ -99,7 +98,7 @@ class EP(object):
         def wrapper(self, *args, **kwargs):
             success = fun(self, *args, **kwargs)
             if not success:
-                exit(1)
+                abort()
         return wrapper
 
     def setup(self):
@@ -108,7 +107,7 @@ class EP(object):
             deps.check()
             success = success and deps.setup()
         if not success:
-            exit(1)
+            abort()
 
     @do_check
     @fail_fast
