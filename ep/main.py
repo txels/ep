@@ -3,8 +3,8 @@ import shutil
 
 import yaml
 
-from . import __version__
-from .compat import basestring
+from . import __version__  # NOQA
+from .compat import basestring  # NOQA
 from .env import Env
 from .npm import Npm
 from .python import Python

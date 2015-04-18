@@ -36,7 +36,7 @@ class Python(object):
                 reqs_hash = f.read()
             reqs_real_hash = self.hash_requirements(self._file)
             reqs_check = reqs_hash == reqs_real_hash
-        except:
+        except Exception:
             reqs_check = False
         if not reqs_check:
             error('Outdated Python requirements, need to run setup')
