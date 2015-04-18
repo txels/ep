@@ -7,4 +7,6 @@ run:
   - python -m unittest discover
   - flake8 ep
 publish:
+  - git tag $(python setup.py --version)
+  - git push --tags
   - python setup.py sdist bdist_wheel upload
