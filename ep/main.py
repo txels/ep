@@ -3,8 +3,8 @@ import shutil
 
 import yaml
 
-from . import __version__
-from .compat import basestring
+from . import __version__  # NOQA
+from .compat import basestring  # NOQA
 from .env import Env
 from .npm import Npm
 from .python import Python
@@ -88,6 +88,7 @@ class EP(object):
         @wraps(fun)
         def wrapper(self, *args, **kwargs):
             if self.check():
+                # pylint: disable=not-callable
                 fun(self, *args, **kwargs)
             else:
                 abort('[ERROR] Checks failed, mission aborted.')
@@ -96,6 +97,7 @@ class EP(object):
     def fail_fast(fun):
         @wraps(fun)
         def wrapper(self, *args, **kwargs):
+            # pylint: disable=not-callable
             success = fun(self, *args, **kwargs)
             if not success:
                 abort()

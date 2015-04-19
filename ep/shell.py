@@ -3,13 +3,13 @@ import os
 import subprocess
 import sys
 
-from .compat import basestring
+from .compat import basestring  # NOQA
 
 
 COLORED = "\033[{format}m{message}\033[0m"
 
 
-class Color16:
+class Color16:  # NOQA
     red = 31
     error = red
     green = 32
@@ -23,7 +23,7 @@ class Color16:
     neutral = white
 
 
-class Color256:
+class Color256:  # NOQA
     red = 196
     error = red
     green = 40
@@ -37,7 +37,7 @@ class Color256:
     neutral = white
 
 
-class Style:
+class Style:  # NOQA
     plain = 0
     bold = 1
     italics = 3
@@ -45,11 +45,11 @@ class Style:
     ansi256 = 5
 
 
-def ansi_print(message, format):
+def ansi_print(message, fmt):
     """
     Print a colored message
     """
-    print(COLORED.format(message=message, format=format))
+    print(COLORED.format(message=message, format=fmt))
 
 
 def output(message, color='neutral', style=Style.plain):
@@ -68,11 +68,11 @@ def output(message, color='neutral', style=Style.plain):
     ansi_print(message, ansi_code)
 
 
-def error(message, stdout=None, stderr=None):
+def error(message):
     """
     Print an error message
 
-    TODO: properly deal with stdout and stderr
+    TODO: be able to deal with custom stdout and stderr
     """
     output(message, color='error', style=Style.bold)
 
@@ -157,8 +157,8 @@ def run(command, capture=False, shell=None):
     out.stderr = err
     if p.returncode != 0:
         out.failed = True
-        msg = "run error (return code {0}) while executing '{1}'".format(
+        msg = "Error (return code {0}) while executing '{1}'".format(
             p.returncode, command)
-        error(message=msg, stdout=out, stderr=err)
+        error(message=msg)  # , stdout=out, stderr=err)
     out.succeeded = not out.failed
     return out

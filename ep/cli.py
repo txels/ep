@@ -1,6 +1,6 @@
 from docopt import docopt
 
-from . import __version__
+from . import __version__  # NOQA
 from .main import EP
 
 USAGE = """

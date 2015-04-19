@@ -2,10 +2,10 @@ ep: 0.1.2
 dependencies:
   - python:
       version: ">=2.6.0"
-      file: "requirements/test.txt"
+      file: requirements/test.txt
 run:
+  - prospector ep
   - python -m unittest discover
-  - flake8 ep
 publish:
   - git tag $(python setup.py --version)
   - git push --tags
