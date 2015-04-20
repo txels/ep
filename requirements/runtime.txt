@@ -1,4 +1,4 @@
-docopt==0.6.2
-semver==2.0.2
-PyYAML==3.11
-wheel==0.24.0
+docopt==0.6.2      # Create CLI from a docstring
+semver==2.0.2      # To match semver-compliant version numbers
+PyYAML==3.11       # To parse ep.yml files
+wheel==0.24.0      # To package in wheel format

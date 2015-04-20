@@ -3,7 +3,6 @@ import os
 import sys
 
 from .shell import error, run
-from .version import match
 
 
 py_version = sys.version.split()[0]
@@ -21,6 +20,7 @@ class Python(object):
         self._file = spec.get('file', 'requirements.txt')
 
     def check(self):
+        from .version import match
         ver_check = match(py_version, self._version)
         if not ver_check:
             error('Expected python {0}, found {1}'.format(
@@ -58,7 +58,7 @@ class Python(object):
         return success
 
     @staticmethod
-    def get_all_requirements(filename):
+    def read_requirements(filename):
         """
         Recursively read all requirements from a pip requirements file.
 
@@ -77,13 +77,13 @@ class Python(object):
 
                 if dependency.startswith('-r '):
                     include = os.path.join(dirname, dependency.split()[1])
-                    dependencies += Python.get_all_requirements(include)
+                    dependencies += Python.read_requirements(include)
                 elif dependency and not dependency.startswith('--'):
                     dependencies.append(dependency)
         return sorted(dependencies)
 
     @staticmethod
     def hash_requirements(filename):
-        dependencies = Python.get_all_requirements(filename)
+        dependencies = Python.read_requirements(filename)
         as_text = "\n".join(dependencies).encode('utf-8')
         return hashlib.md5(as_text).hexdigest()
