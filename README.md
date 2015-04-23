@@ -143,6 +143,12 @@ check:
 Besides the basic explicit contract defined above, `ep` helps you with extra
 things.
 
+### Some commands
+
+`ep shell` runs commands within ep's isolated environment. E.g.:
+
+    ep shell "pip list"
+
 ### Extra setup steps
 
 TODO: define a mechanism to have additional setup steps such as running

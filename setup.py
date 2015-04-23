@@ -26,7 +26,7 @@ if __name__ == '__main__':
         install_requires=runtime_dependencies,
         entry_points=dict(
             console_scripts=[
-                'ep = ep.cli:Commands.main'
+                'ep = ep.cli:Commands.main',
             ],
         ),
         package_data={
