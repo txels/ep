@@ -1,4 +1,5 @@
 ep: 1.0.0
 run:
-  - echo "Hello World"
+  - echo "Hello World, I will go to sleep for 3 seconds..."
+  - sleep 3
   - git status

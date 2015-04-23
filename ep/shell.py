@@ -1,5 +1,7 @@
 from __future__ import print_function
+from functools import wraps
 import os
+import signal
 import subprocess
 import sys
 
@@ -93,6 +95,25 @@ def abort(message=None, status=1):
     exit(status)
 
 
+def graceful_ctrlc(fun):
+    """
+    Decorator to gracefully deal with CTRL-C
+
+    Instead of a stack trace it will abort with the standard bash return code
+    for CTRL-C.
+
+    """
+    CTRLC_RETURN_CODE = 128 + signal.SIGINT
+
+    @wraps(fun)
+    def wrapper(*args, **kwargs):
+        try:
+            fun(*args, **kwargs)
+        except KeyboardInterrupt:
+            abort("<Ctrl-C> Aborting...", status=CTRLC_RETURN_CODE)
+    return wrapper
+
+
 class _AttributeString(str):
     """
     Simple string subclass to allow arbitrary attribute access.
@@ -148,6 +169,7 @@ def run(command, capture=False, shell=None):
     finally:
         if dev_null is not None:
             dev_null.close()
+
     # Handle error condition (deal with stdout being None, too)
     out = _AttributeString(stdout.strip() if stdout else "")
     err = _AttributeString(stderr.strip() if stderr else "")

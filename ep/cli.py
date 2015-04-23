@@ -2,6 +2,7 @@ from docopt import docopt
 
 from . import __version__  # NOQA
 from .main import EP
+from .shell import graceful_ctrlc
 
 USAGE = """
 Welcome to ep {0}
@@ -29,6 +30,7 @@ class Commands(object):
 
     """
     @staticmethod
+    @graceful_ctrlc
     def main():
         args = docopt(USAGE, version=__version__)
 
