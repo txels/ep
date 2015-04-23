@@ -119,3 +119,6 @@ class EP(object):
     @fail_fast
     def publish(self):
         return self._shell_run(self._publish)
+
+    def shell(self, command):
+        self._shell_run([command])
