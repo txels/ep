@@ -66,10 +66,10 @@ class Commands(object):
 
                 # Create kwargs by stripping out angle brackets and filtering
                 # out empty arguments (docopt includes None values for those)
-                kwargs = {
-                    arg[1:-1]: args[arg]
+                kwargs = dict([
+                    (arg[1:-1], args[arg])
                     for arg in filter(lambda x: x.startswith('<'), args)
                     if args[arg] is not None
-                }
+                ])
 
                 method(**kwargs)
