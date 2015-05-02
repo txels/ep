@@ -5,7 +5,9 @@ dependencies:
       file: requirements/test.txt
 run:
   - prospector ep
-  - python -m unittest discover
+  - coverage erase
+  - coverage run --omit="*/tests/*","*$VIRTUAL_ENV*" -m unittest discover
+  - coverage html
 publish:
   - git diff --exit-code
   - ep run
