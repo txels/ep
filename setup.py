@@ -2,12 +2,17 @@
 # coding: utf-8
 
 from setuptools import setup
+import os
 
 from ep import __version__
 from ep.python import Python
 
 
-runtime_dependencies = Python.read_requirements('requirements/runtime.txt')
+DIR = os.path.dirname(__file__)
+
+runtime_dependencies = Python.read_requirements(
+    os.path.join(DIR, 'requirements', 'runtime.txt')
+)
 
 
 if __name__ == '__main__':
@@ -17,7 +22,7 @@ if __name__ == '__main__':
             'A tool to support an explicit contract between application '
             'and plaftorm'
         ),
-        long_description=open('README.md').read(),
+        long_description=open(os.path.join(DIR, 'README.md')).read(),
         version=__version__,
         author='Carles Barrobés',
         author_email='carles@barrobes.com',
