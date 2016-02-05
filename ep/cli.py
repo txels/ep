@@ -17,6 +17,7 @@ Usage:
   ep run [--file=<FILE>]
   ep publish [--file=<FILE>]
   ep shell <command> [--file=<FILE>]
+  ep <entrypoint> [--file=<FILE>]
   ep --version
   ep -h | --help
 
@@ -60,16 +61,26 @@ class Commands(object):
 
     @staticmethod
     def process(ep, args):
-        for command in COMMANDS:
-            if args[command]:
-                method = getattr(ep, command)
+        # Check for arbitrary entrypoint first:
+        command = args.get('<entrypoint>', None)
+        if command:
+            del args['<entrypoint>']
+            Commands.run_entrypoint(ep, command, args)
+        else:
+            for command in COMMANDS:
+                if args[command]:
+                    Commands.run_entrypoint(ep, command, args)
 
-                # Create kwargs by stripping out angle brackets and filtering
-                # out empty arguments (docopt includes None values for those)
-                kwargs = dict([
-                    (arg[1:-1], args[arg])
-                    for arg in filter(lambda x: x.startswith('<'), args)
-                    if args[arg] is not None
-                ])
+    @staticmethod
+    def run_entrypoint(ep, command, args):
+        method = getattr(ep, command)
 
-                method(**kwargs)
+        # Create kwargs by stripping out angle brackets and filtering
+        # out empty arguments (docopt includes None values for those)
+        kwargs = dict([
+            (arg[1:-1], args[arg])
+            for arg in filter(lambda x: x.startswith('<'), args)
+            if args[arg] is not None
+        ])
+
+        method(**kwargs)

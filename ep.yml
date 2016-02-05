@@ -3,14 +3,14 @@ dependencies:
   - python:
       version: ">=2.6.0"
       file: requirements/test.txt
-run:
+test:
   - prospector ep
   - coverage erase
   - coverage run --omit="*/tests/*","*$VIRTUAL_ENV*" -m unittest discover
   - coverage html
 publish:
   - git diff --exit-code
-  - ep run
+  - ep test
   - git tag $(python setup.py --version)
   - git push --tags
   - python setup.py sdist bdist_wheel upload

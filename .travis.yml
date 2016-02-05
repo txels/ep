@@ -8,4 +8,4 @@ python:
 install: python setup.py develop
 script:
   - ep setup
-  - ep run
+  - ep test

@@ -16,4 +16,5 @@ class Npm(object):
         return file_check
 
     def setup(self):
-        run('npm install')
+        result = run('npm install')
+        return result.succeeded

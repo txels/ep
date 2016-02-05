@@ -17,6 +17,9 @@ DEFAULTS = {
     'dependencies': {},
     'env': {},
     'publish': ['python setup.py sdist bdist_whell upload'],
+    'build': [],
+    'test': [],
+    'setup': [],
 }
 
 
@@ -107,9 +110,19 @@ class EP(object):
         success = True
         for deps in self.dependencies:
             deps.check()
-            success = deps.setup()
+            success = deps.setup() and self._shell_run(self._setup)
         if not success:
             abort()
+
+    @do_check
+    @fail_fast
+    def test(self):
+        return self._shell_run(self._test)
+
+    @do_check
+    @fail_fast
+    def build(self):
+        return self._shell_run(self._build)
 
     @do_check
     @fail_fast
