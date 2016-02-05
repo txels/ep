@@ -1,4 +1,4 @@
 -r runtime.txt
 # flake8
-prospector
+prospector==0.10.2
 coverage
