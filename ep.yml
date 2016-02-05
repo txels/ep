@@ -4,7 +4,7 @@ dependencies:
       version: ">=2.6.0"
       file: requirements/test.txt
 test:
-  - prospector ep
+  # - prospector ep
   - coverage erase
   - coverage run --omit="*/tests/*","*$VIRTUAL_ENV*" -m unittest discover
   - coverage html
