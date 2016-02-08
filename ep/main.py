@@ -16,7 +16,7 @@ DEFAULTS = {
     'check': [],
     'dependencies': {},
     'env': {},
-    'publish': ['python setup.py sdist bdist_whell upload'],
+    'publish': ['python setup.py sdist bdist_wheel upload'],
     'build': [],
     'test': [],
     'setup': [],
