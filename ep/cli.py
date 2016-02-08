@@ -62,19 +62,17 @@ class Commands(object):
     @staticmethod
     def process(ep, args):
         # Check for arbitrary entrypoint first:
-        command = args.get('<entrypoint>', None)
-        if command:
+        entrypoint = args.get('<entrypoint>', None)
+        if entrypoint:
             del args['<entrypoint>']
-            Commands.run_entrypoint(ep, command, args)
+            Commands.run_entrypoint(ep, entrypoint, args)
         else:
-            for command in COMMANDS:
-                if args[command]:
-                    Commands.run_entrypoint(ep, command, args)
+            for entrypoint in COMMANDS:
+                if args[entrypoint]:
+                    Commands.run_entrypoint(ep, entrypoint, args)
 
     @staticmethod
-    def run_entrypoint(ep, command, args):
-        method = getattr(ep, command)
-
+    def run_entrypoint(ep, entrypoint, args):
         # Create kwargs by stripping out angle brackets and filtering
         # out empty arguments (docopt includes None values for those)
         kwargs = dict([
@@ -83,4 +81,4 @@ class Commands(object):
             if args[arg] is not None
         ])
 
-        method(**kwargs)
+        ep.run_entrypoint(entrypoint, **kwargs)

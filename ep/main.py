@@ -13,13 +13,11 @@ from .shell import abort, run
 DEFAULTS = {
     'ep': __version__,
     'run': 'honcho start',
-    'check': [],
     'dependencies': {},
     'env': {},
-    'publish': ['python setup.py sdist bdist_wheel upload'],
-    'build': [],
-    'test': [],
+    'check': [],
     'setup': [],
+    'publish': ['python setup.py sdist bdist_wheel upload'],
 }
 
 
@@ -41,8 +39,8 @@ class EP(object):
         with open(filename) as f:
             self.spec = yaml.load(f)
 
-        for key, default in DEFAULTS.items():
-            setattr(self, '_' + key, self.spec.get(key, default))
+        for key in set(list(self.spec.keys()) + list(DEFAULTS.keys())):
+            setattr(self, '_' + key, self.spec.get(key, DEFAULTS.get(key, [])))
 
         self.dependencies = self._parse_dependencies(self._dependencies)
         self.env = self._parse_environment(self._env)
@@ -78,15 +76,6 @@ class EP(object):
         else:
             return True
 
-    def clear(self):
-        shutil.rmtree('.ep', ignore_errors=True)
-
-    def check(self):
-        env_checks = self.env.check()
-        dep_checks = (all(map(lambda x: x.check(), self.dependencies)))
-        check_commands = self._shell_run(self._check)
-        return env_checks and dep_checks and check_commands
-
     def do_check(fun):
         @wraps(fun)
         def wrapper(self, *args, **kwargs):
@@ -106,6 +95,26 @@ class EP(object):
                 abort()
         return wrapper
 
+    def run_entrypoint(self, entrypoint, **kwargs):
+        try:
+            method = getattr(self, entrypoint, None)
+            if method:
+                return method(**kwargs)
+            else:
+                commands = getattr(self, '_' + entrypoint)
+                return self.wrapped_execution(commands)
+        except AttributeError:
+            abort('Entry point "{}" not found in EP file'.format(entrypoint))
+
+    def clear(self):
+        shutil.rmtree('.ep', ignore_errors=True)
+
+    def check(self):
+        env_checks = self.env.check()
+        dep_checks = (all(map(lambda x: x.check(), self.dependencies)))
+        check_commands = self._shell_run(self._check)
+        return env_checks and dep_checks and check_commands
+
     def setup(self):
         success = True
         for deps in self.dependencies:
@@ -116,18 +125,8 @@ class EP(object):
 
     @do_check
     @fail_fast
-    def test(self):
-        return self._shell_run(self._test)
-
-    @do_check
-    @fail_fast
-    def build(self):
-        return self._shell_run(self._build)
-
-    @do_check
-    @fail_fast
-    def run(self):
-        return self._shell_run(self._run)
+    def wrapped_execution(self, commands):
+        return self._shell_run(commands)
 
     @fail_fast
     def publish(self):

@@ -14,3 +14,5 @@ publish:
   - git tag $(python setup.py --version)
   - git push --tags
   - python setup.py sdist bdist_wheel upload
+procrastinate:
+  - echo "Lazybones"

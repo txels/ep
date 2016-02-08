@@ -30,3 +30,12 @@ class TestParsing(TestCase):
     def test_self_ep_yml(self):
         ep = EP('ep.yml')
         self.assertTrue(ep.check())
+
+    def test_arbitrary_entrypoints(self):
+        ep = EP('ep/samples/arbitrary-entrypoint.yml')
+        self.assertListEqual(
+            ['sleep 10',
+             'sleep 20',
+             ],
+            ep._procrastinate
+        )
