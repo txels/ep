@@ -26,7 +26,7 @@ class Python(object):
             spec = {}
         # By default, we match current python version
         self._version = spec.get('version', '==' + outer_py_version)
-        self._interpreter = spec.get('interpreter', 'python')
+        self._virtualenv = spec.get('virtualenv', 'virtualenv')
         self._file = spec.get('file', 'requirements.txt')
 
     def check(self):
@@ -58,8 +58,8 @@ class Python(object):
         reqs_hash = Python.hash_requirements(self._file)
         commands = [
             'mkdir -p {0}'.format(ENV_DIR),
-            'virtualenv --python `which {0}` {1}'.format(
-                self._interpreter, ENV_DIR
+            '{0} {1}'.format(
+                self._virtualenv, ENV_DIR
             ),
             '{0}/bin/pip install -r {1}'.format(ENV_DIR, self._file),
             '.ep/python/bin/pip install honcho',
