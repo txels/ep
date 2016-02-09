@@ -119,7 +119,9 @@ class EP(object):
         success = True
         for deps in self.dependencies:
             deps.check()
-            success = deps.setup() and self._shell_run(self._setup)
+            success = success and deps.setup()
+        if self._setup:
+            self._shell_run(self._setup)
         if not success:
             abort()
 
