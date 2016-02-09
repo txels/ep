@@ -1,6 +1,6 @@
 import os
 
-from .shell import error, warning
+from .shell import error, output, warning
 
 
 class EnvVar(object):
@@ -33,6 +33,9 @@ class EnvVar(object):
                     self.name, self.help
                 ))
                 return False
+        else:
+            output('{0}={1}'.format(self.name, value))
+
         return True
 
 
