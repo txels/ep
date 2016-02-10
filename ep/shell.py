@@ -114,10 +114,24 @@ def graceful_ctrlc(fun):
     return wrapper
 
 
-class _AttributeString(str):
+class _AttributeString(object):
     """
     Simple string subclass to allow arbitrary attribute access.
     """
+    def __init__(self, data):
+        self._data = data
+
+    def __str__(self):
+        """
+        Makes things compatible with Python2 and Python3
+
+        CAVEAT: data is assumed to be 'utf-8'-encoded.
+        """
+        if isinstance(self._data, bytes):
+            return self._data.decode('utf-8')
+        else:
+            return self._data
+
     @property
     def stdout(self):
         return str(self)
